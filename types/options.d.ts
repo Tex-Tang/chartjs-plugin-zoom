@@ -166,6 +166,7 @@ export interface ScaleLimits {
   min?: number | 'original';
   max?: number | 'original';
   minRange?: number;
+  maxRange?: number;
 }
 
 export interface LimitOptions {
