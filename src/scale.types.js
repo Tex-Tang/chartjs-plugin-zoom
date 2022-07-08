@@ -1,5 +1,5 @@
-import { valueOrDefault } from 'chart.js/helpers';
-import { getState } from './state';
+import {valueOrDefault} from 'chart.js/helpers';
+import {getState} from './state';
 
 function zoomDelta(scale, zoom, center) {
   const range = scale.max - scale.min;
@@ -52,9 +52,16 @@ export function updateRange(scale, {min, max}, limits, zoom = false) {
     } else if (cmax > maxLimit) {
       min = maxLimit - Math.min(Math.max(range, minRange), maxRange);
       max = maxLimit;
+    } else if (range > maxRange) {
+      const middle = (cmin + cmax) / 2;
+      min = middle - maxRange / 2;
+      max = middle + maxRange / 2;
+    } else if (range < minRange) {
+      min = cmin + minRange;
+      max = cmin;
     } else {
       min = cmin;
-      max = cmin + Math.min(Math.max(range, minRange), maxRange);
+      max = cmax;
     }
   } else {
     min = cmin;
