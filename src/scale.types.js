@@ -53,12 +53,12 @@ export function updateRange(scale, {min, max}, limits, zoom = false) {
       min = maxLimit - Math.min(Math.max(range, minRange), maxRange);
       max = maxLimit;
     } else if (range > maxRange) {
-      const middle = (cmin + cmax) / 2;
+      const middle = (scale.min + scale.max) / 2;
       min = middle - maxRange / 2;
       max = middle + maxRange / 2;
     } else if (range < minRange) {
-      min = cmin + minRange;
-      max = cmin;
+      min = scale.min;
+      max = scale.min + minRange;
     } else {
       min = cmin;
       max = cmax;

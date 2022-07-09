@@ -158,40 +158,29 @@ function updateRange(scale, {min, max}, limits, zoom = false) {
   if (zoom) {
     const range = cmax - cmin;
     if (cmin < minLimit && cmax > maxLimit) {
-      console.log("cmin < minLimit && cmax > maxLimit");
       min = minLimit;
       max = maxLimit;
     } else if (cmin < minLimit) {
-      console.log("cmin < minLimit");
       min = minLimit;
       max = minLimit + Math.min(Math.max(range, minRange), maxRange);
     } else if (cmax > maxLimit) {
-      console.log("cmax > maxLimit");
       min = maxLimit - Math.min(Math.max(range, minRange), maxRange);
       max = maxLimit;
+    } else if (range > maxRange) {
+      const middle = (scale.min + scale.max) / 2;
+      min = middle - maxRange / 2;
+      max = middle + maxRange / 2;
+    } else if (range < minRange) {
+      min = scale.min;
+      max = scale.min + minRange;
     } else {
-      console.log("else");console.log("scale: " + new Date(scale.min).toLocaleString(), "scale.max: " + new Date(scale.max).toLocaleString());
-      console.log("cmin: " + new Date(cmin).toLocaleString(), "cmax: " + new Date(cmax).toLocaleString());
-      console.log("range", range);
-      console.log("minRange", minRange, maxRange);
-      if(range > maxRange) {
-        const middle = (cmin + cmax) / 2;
-        min = middle - maxRange / 2;
-        max = middle + maxRange / 2;
-      } else if (range < minRange) {
-        min = cmin + minRange;
-        max = cmin;
-      } else {
-        min = cmin;
-        max = cmax;
-      }
+      min = cmin;
+      max = cmax;
     }
   } else {
-    console.log("else");
     min = cmin;
     max = cmax;
   }
-  console.log("min: " + new Date(min).toLocaleString(), "max: " + new Date(max).toLocaleString());
 
   scaleOpts.min = min;
   scaleOpts.max = max;
